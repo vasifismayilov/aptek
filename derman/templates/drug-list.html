@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th, td {
+            border: 2px solid black;
+            padding: 5px;
+        }
+
+        .rn {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body style='background-color:#16E2F5;'>
+    <h1>Dərmanlar</h1>
+    <form action="{% url 'drug-list' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" style='border:3px solid; background-color:#F9A694;' placeholder="Ad">
+        <input type="text" name="price" style='border:3px solid; background-color:#F9A694;' placeholder="Qiymet">
+        <input type="date" name="expirate" style='border:3px solid; background-color:#F9A694;' placeholder="Tarix">
+        <label for="recipe_needed">Resept Lazimdir: </label>
+        <input type="checkbox" name="recipe_needed" style='border:3px solid; background-color:#F9A694;' id="recipe_needed">
+        <select name="factory">
+            {% for factory in factories %}
+                <option  value="{{factory.id}}">{{factory.title}} </option>
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+        {{form.errors}}
+    <table>
+        <thead>
+            <th>Dərman Adı</th>
+            <th>Firma Adı</th>
+            <th>Qiymət</th>
+            <th>Tarix</th>
+            <th>Müddəti Bitib</th>
+            <th>Silmək</th>
+            <th>Tənzimləmə</th>
+        </thead>
+        <tbody>
+            {% for drug in drugs %}
+                <tr class="{% if drug.recipe_needed %}rn{% endif %}">
+                    <td>{{drug.title}}</td>
+                    <td>{{drug.factory.title}}</td>
+                    <td>{{drug.price}} AZN</td>
+                    <td>{{drug.expirate|date:"Y.m.d"}}</td>
+                    <td>
+                        {{drug.get_expire_info}}
+                    </td>
+                    <td>
+                        <a href="{% url 'delete-drug' pk=drug.id %}">Sil</a>
+                    </td>
+                    <td><a href="{% url 'drug-edit' pk=drug.id %}">Dəyis</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><b>Say: {{info.say}}<br> Ortalama: {{info.ortalama}}<br> Maks: {{info.maks}}<br> Min: {{info.minimum}}<br> Toplam: {{info.toplam}}</b></p>
+</body>
+</html>

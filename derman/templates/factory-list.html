@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th, td {
+            border: 2px solid black;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Firma List</h1>
+    <p>{{facotry_count}}</p>
+    <table>
+        <thead>
+            <th>Firma Adi</th>
+            <th>Derman Sayi</th>
+            <th>Qiymet Ortlama</th>
+            <th>Qiymet Cem</th>
+        </thead>
+        <tbody>
+            {% for factory in factories %}
+                <tr>
+                    <td>{{factory.title}}</td>
+                    <td>{{factory.say}}</td>
+                    <td>{{factory.ortalama}}</td>
+                    <td>{{factory.cem}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
